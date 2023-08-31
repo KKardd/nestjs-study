@@ -1,7 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UsersService {
+  constructor(private emailService: EmailService) {}
   async createUser(name: string, email: string, password: string) {
     await this.checkUserExists(email);
   }
@@ -19,10 +21,10 @@ export class UsersService {
     return; // TODO: DB연동 후 구현
   }
 
-  //   private async sendMemberJoinEmail(email: string, signupVerifyToken: string) {
-  //     await this.emailService.sendMemberJoinVerification(
-  //       email,
-  //       signupVerifyToken,
-  //     );
-  //   }
+  private async sendMemberJoinEmail(email: string, signupVerifyToken: string) {
+    await this.emailService.sendMemberJoinVerification(
+      email,
+      signupVerifyToken,
+    );
+  }
 }
