@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { VerifyEmailDto } from './dto/verify-email.dto';
 import { UserLoginDto } from './dto/login-user.dto';
-import { UserInfo } from './dto/user-info.dto';
+import { UserInfo } from './UserInfo';
 import { UsersService } from './users.service';
 
 @Controller('users')
