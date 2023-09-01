@@ -1,9 +1,14 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class UsersService {
-  constructor(private emailService: EmailService) {}
+  constructor(
+    private emailService: EmailService,
+    private configService: ConfigService,
+  ) {}
+
   async createUser(name: string, email: string, password: string) {
     await this.checkUserExists(email);
   }
