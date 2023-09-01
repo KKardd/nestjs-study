@@ -30,6 +30,13 @@ export class UsersService {
     throw new Error('Method not implemented!');
   }
 
+  async login(email: string, password: string) {
+    // TODO DB연동 후, email에 맞는 password의 사람이 있는지 확인하고 없으면 에러
+    // 있으면 JWT토근 발급
+
+    throw new Error('Method not implemented!');
+  }
+
   private saveUser(
     name: string,
     email: string,
