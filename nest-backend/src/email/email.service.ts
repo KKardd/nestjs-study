@@ -26,7 +26,7 @@ export class EmailService {
     emailAddress: string,
     signupVerifyToken: string,
   ) {
-    const baseUrl = 'http://loaclhost:3000';
+    const baseUrl = 'http://localhost:3000';
 
     const url = `${baseUrl}/users/email-verify?signupVerifyToken=${signupVerifyToken}`;
 
