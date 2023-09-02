@@ -2,4 +2,4 @@ book-nestjs-backend/
 hi-nest/
 node_modules/
 nest-backend/dist/
-.env
+*.env
