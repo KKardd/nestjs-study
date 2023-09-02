@@ -2,7 +2,7 @@ import * as uuid from 'uuid';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EmailService } from 'src/email/email.service';
-import { UserInfo } from './dto/user-info.dto';
+import { UserInfo } from './UserInfo';
 
 @Injectable()
 export class UsersService {
