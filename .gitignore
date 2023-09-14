@@ -3,3 +3,4 @@ hi-nest/
 node_modules/
 nest-backend/dist/
 *.env
+ormconfig.ts
