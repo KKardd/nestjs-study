@@ -1,5 +1,9 @@
 import * as uuid from 'uuid';
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EmailService } from 'src/email/email.service';
 import { UserInfo } from './UserInfo';
@@ -7,12 +11,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { DataSource, Repository } from 'typeorm';
 import { ulid } from 'ulid';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     private emailService: EmailService,
     private configService: ConfigService,
+    private authService: AuthService,
     @InjectRepository(UserEntity)
     private userRepository: Repository<UserEntity>,
     private dataSource: DataSource,
@@ -35,14 +41,23 @@ export class UsersService {
     const user = await this.userRepository.findOne({
       where: { email },
     });
-    return user !== undefined;
+    return user !== null;
   }
 
   async verifyEmail(signupVerifyToken: string): Promise<any> {
-    // TODO DB에서 signupVerifyToken로 회원가입중인 유저가 있는지 조회 -> 없다면 에러처리
-    // 바로 로그인 상태가 되도록 JWT토큰 발급
+    const user = await this.userRepository.findOne({
+      where: { signupVerifyToken },
+    });
 
-    throw new Error('Method not implemented!'); // 반환값 수정
+    if (!user) {
+      throw new NotFoundException('유저가 존재하지 않음');
+    }
+
+    return this.authService.login({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
   }
 
   async login(email: string, password: string): Promise<any> {
