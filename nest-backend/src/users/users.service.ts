@@ -44,7 +44,7 @@ export class UsersService {
     return user !== null;
   }
 
-  async verifyEmail(signupVerifyToken: string): Promise<any> {
+  async verifyEmail(signupVerifyToken: string): Promise<string> {
     const user = await this.userRepository.findOne({
       where: { signupVerifyToken },
     });
