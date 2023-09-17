@@ -22,8 +22,7 @@ export class UsersController {
   }
 
   @Post('/login')
-  async login(@Body() dto: UserLoginDto): Promise<void> {
-    // TODO 반환값 수정
+  async login(@Body() dto: UserLoginDto): Promise<string> {
     const { email, password } = dto;
     return await this.usersService.login(email, password);
   }

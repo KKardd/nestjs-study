@@ -61,10 +61,19 @@ export class UsersService {
   }
 
   async login(email: string, password: string): Promise<any> {
-    // TODO DB연동 후, email에 맞는 password의 사람이 있는지 확인하고 없으면 에러
-    // 있으면 JWT토근 발급
+    const user = await this.userRepository.findOne({
+      where: { email, password },
+    });
 
-    throw new Error('Method not implemented!'); // 반환값 수정
+    if (!user) {
+      throw new NotFoundException('유저가 존재하지 않음');
+    }
+
+    return this.authService.login({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
   }
 
   async getUserInfo(userId: string): Promise<UserInfo> {
