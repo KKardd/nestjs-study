@@ -77,10 +77,19 @@ export class UsersService {
   }
 
   async getUserInfo(userId: string): Promise<UserInfo> {
-    // TODO DB연동 후, userId 확인. 해당 userId 없으면 에러
-    // 있다면 UserInfo형식으로 응답
+    const user = await this.userRepository.findOne({
+      where: { id: userId },
+    });
 
-    throw new Error('Method not implemented!');
+    if (!user) {
+      throw new NotFoundException('유저가 존재하지 않음');
+    }
+
+    return {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    };
   }
 
   private saveUser(
