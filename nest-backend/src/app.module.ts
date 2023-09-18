@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as winston from 'winston';
+import {
+  utilities as nestWinstonModuleUtilities,
+  WinstonModule,
+} from 'nest-winston';
 import { UsersModule } from './users/users.module';
 import { validationSchema } from './config/validationSchema';
 import { AuthModule } from './auth/auth.module';
@@ -28,6 +33,19 @@ import authConfig from './config/authConfig';
       migrationsRun: false,
       migrations: [__dirname + '**/migrations/*.js'],
       migrationsTableName: 'migrations',
+    }),
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          level: process.env.NODE_ENV === 'production' ? 'info' : 'silly',
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            nestWinstonModuleUtilities.format.nestLike('MyApp', {
+              prettyPrint: true,
+            }),
+          ),
+        }),
+      ],
     }),
     AuthModule,
   ],
