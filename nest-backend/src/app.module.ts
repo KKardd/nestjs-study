@@ -9,6 +9,7 @@ import {
 import { UsersModule } from './users/users.module';
 import { validationSchema } from './config/validationSchema';
 import { AuthModule } from './auth/auth.module';
+import { ExceptionModule } from './exception/exception.module';
 import emailConfig from './config/emailConfig';
 import authConfig from './config/authConfig';
 
@@ -48,6 +49,7 @@ import authConfig from './config/authConfig';
       ],
     }),
     AuthModule,
+    ExceptionModule,
   ],
   controllers: [],
   providers: [],
