@@ -3,6 +3,10 @@ import {
   Controller,
   Get,
   Headers,
+  Inject,
+  InternalServerErrorException,
+  Logger,
+  LoggerService,
   Param,
   Post,
   Query,
@@ -19,14 +23,16 @@ import { AuthGuard } from 'src/auth.guard';
 @Controller('users')
 export class UsersController {
   constructor(
+    @Inject(Logger) private readonly logger: LoggerService,
     private readonly usersService: UsersService,
     private authService: AuthService,
   ) {}
 
   @Post()
   async createUser(@Body() dto: CreateUserDto): Promise<void> {
+    this.printWinstonLog(dto);
     const { name, email, password } = dto;
-    await this.usersService.createUser(name, email, password);
+    // await this.usersService.createUser(name, email, password);
   }
 
   @Post('/email-verify')
@@ -45,5 +51,18 @@ export class UsersController {
   @Get('/:id')
   async getUserInfo(@Param('id') userId: string): Promise<UserInfo> {
     return await this.usersService.getUserInfo(userId);
+  }
+
+  private printWinstonLog(dto) {
+    try {
+      throw new InternalServerErrorException('test');
+    } catch (e) {
+      this.logger.error('error: ' + JSON.stringify(dto) + '\n' + e.stack);
+    }
+
+    this.logger.warn('warn: ', dto);
+    this.logger.log('log: ', dto);
+    this.logger.verbose('verbose: ', dto);
+    this.logger.debug('debug: ', dto);
   }
 }
