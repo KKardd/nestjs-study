@@ -32,7 +32,7 @@ export class UsersController {
   async createUser(@Body() dto: CreateUserDto): Promise<void> {
     this.printWinstonLog(dto);
     const { name, email, password } = dto;
-    // await this.usersService.createUser(name, email, password);
+    await this.usersService.createUser(name, email, password);
   }
 
   @Post('/email-verify')
