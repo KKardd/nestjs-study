@@ -1,18 +1,23 @@
 import {
   Controller,
+  Param,
   Post,
-  UseInterceptors,
+  Put,
   UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
-@Controller('menu')
-export class S3UploadController {
+@Controller('posts')
+export class PostsController {
   constructor() {}
 
-  @Post()
+  @Put('/:id')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file: Express.MulterS3.File) {
+  async uploadFile(
+    @UploadedFile() file: Express.MulterS3.File,
+    @Param('id') id: number,
+  ) {
     return file;
   }
 }

@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
+import { PostsController } from './posts.controller';
+import { S3UploadModule } from 'src/s3-upload/s3-upload.module';
 import { MulterModule } from '@nestjs/platform-express';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { S3Client } from '@aws-sdk/client-s3';
 import * as mime from 'mime-types';
 import s3Storage from 'multer-s3';
 import * as multerS3 from 'multer-s3';
-import { S3UploadController } from './s3-upload.controller';
 import { multerS3Config } from 'src/s3-config';
 
 @Module({
@@ -17,7 +18,10 @@ import { multerS3Config } from 'src/s3-config';
         multerS3Config(configService),
     }),
   ],
-  controllers: [S3UploadController],
-  providers: [],
+  controllers: [PostsController],
 })
-export class S3UploadModule {}
+export class PostsModule {}
+
+// 이미지가 들어가야할 곳
+// store
+// menu
